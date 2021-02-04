@@ -1,0 +1,17 @@
+//Improve bomb avoidance
+
+Make higher level tanks avoid bullets
+
+Add more levels
+
+Make tanks that died in the level stay dead when the level restarts
+
+Make title screens for the levels
+
+Add Particles for destroyed tanks
+
+Add Particles for bombs exploding
+
+Fix Tank and Wall overlap in drawing
+
+Make bombs explode faster if there is an enemy tank in the explosion radius and no player

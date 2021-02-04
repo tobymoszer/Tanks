@@ -1,0 +1,14 @@
+editor
+effects
+effects.projectiles
+effects.tracks
+elements
+main
+tanks.pathfinding
+tanks
+tanks.enemies
+tanks.enemies.moving
+tanks.enemies.stationary
+tools
+tanks.weapons
+tanks.weapons.projectiles
