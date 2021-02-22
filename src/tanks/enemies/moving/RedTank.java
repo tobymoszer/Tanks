@@ -26,6 +26,7 @@ public class RedTank extends MovingTank {
         aimSpeed = .05 / 16;
         fireRate = 7000./delay;
         checkWillHitPlayerFrequency = .2;
+        projectileBounces = 1;
     }
 
     /**

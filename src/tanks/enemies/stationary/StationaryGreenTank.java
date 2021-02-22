@@ -26,6 +26,7 @@ public class StationaryGreenTank extends StationaryTank {
         lastFired = System.currentTimeMillis();
         color = new Color(80, 137, 70);
         aimSpeed = .05 / 16;
+        projectileBounces = 2;
     }
 
     /**

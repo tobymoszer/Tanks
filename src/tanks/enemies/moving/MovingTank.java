@@ -144,7 +144,7 @@ public abstract class MovingTank extends EnemyTank {
         avoidProjectiles();
         
         if (Math.random() < checkWillHitPlayerFrequency) {
-            if (System.currentTimeMillis() > lastFired + fireRate && willHitPlayer(1)) {
+            if (System.currentTimeMillis() > lastFired + fireRate && willHitPlayer(projectileBounces)) {
                 shoot();
                 lastFired = System.currentTimeMillis();
             }

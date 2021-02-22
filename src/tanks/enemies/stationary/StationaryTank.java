@@ -35,7 +35,7 @@ public abstract class StationaryTank extends EnemyTank {
 
         aim += aimSpeed * delay;
 
-        if (System.currentTimeMillis() > lastFired + fireRate && willHitPlayer(1)) {
+        if (System.currentTimeMillis() > lastFired + fireRate && willHitPlayer(projectileBounces)) {
             shoot();
             lastFired = System.currentTimeMillis();
         }

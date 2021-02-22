@@ -28,6 +28,7 @@ public class YellowTank extends BombLayingTank {
         bombRate = 50000./delay;
         lastBomb = System.currentTimeMillis();
         checkWillHitPlayerFrequency = .2;
+        projectileBounces = 1;
     }
 
     /**

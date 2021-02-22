@@ -26,6 +26,7 @@ public class GreenTank extends MovingTank {
         aimSpeed = .05 / 16;
         fireRate = 10000./delay;
         checkWillHitPlayerFrequency = .2;
+        projectileBounces = 0;
     }
 
     /**

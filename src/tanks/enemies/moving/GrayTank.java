@@ -26,6 +26,7 @@ public class GrayTank extends MovingTank {
         aimSpeed = .01 / 16;
         fireRate = 100000./delay;
         checkWillHitPlayerFrequency = .1;
+        projectileBounces = 1;
     }
 
     /**

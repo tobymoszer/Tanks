@@ -60,7 +60,7 @@ public abstract class Projectile {
 	/**
 	 * How many times the Projectile can bounce
 	 */
-	int bounces;
+	protected int bounces;
 	/**
 	 * The Effects that Projectile leaves behind
 	 */

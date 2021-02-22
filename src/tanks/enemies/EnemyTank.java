@@ -30,6 +30,11 @@ public abstract class EnemyTank extends Tank {
 	protected double aimSpeed;
 
 	/**
+	 * The number of bounces the tank's projectile has
+	 */
+	protected int projectileBounces;
+
+	/**
 	 * Constructs an EnemyTank
 	 * Sets the direction and aim
 	 * @param x the x position of the EnemyTank

@@ -57,6 +57,8 @@ public class PathFinder {
         Node start = nodes[(int) tank.x][(int) tank.y];
         Node target = nodes[destination[0]][destination[1]];
 
+        ArrayList<Node> path = new ArrayList<>();
+
         open.add(current);
 
         while (true) {
@@ -80,10 +82,14 @@ public class PathFinder {
 
             ArrayList<Node> neighbors = getNeighbors(current, target);
 
+            boolean noPathFlag = true;
+
             for (Node neighbor: neighbors) {
                 if (closed.contains(neighbor)) {
                     continue;
                 }
+
+                noPathFlag = false;
 
                 if (open.contains(neighbor)) {
                     if (neighbor.g > current.g + getNewG(neighbor, current)) {
@@ -101,6 +107,9 @@ public class PathFinder {
                     neighbor.f = neighbor.g + neighbor.h;
                 }
             }
+            if (noPathFlag) {
+                return path;
+            }
         }
 
         ArrayList<Node> backwardsPath = new ArrayList<>();
@@ -109,7 +118,6 @@ public class PathFinder {
             current = current.parent;
         }
 
-        ArrayList<Node> path = new ArrayList<>();
         for (int i = backwardsPath.size() - 1; i >= 0; i--) {
             path.add(backwardsPath.get(i));
         }
