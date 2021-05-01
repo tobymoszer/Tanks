@@ -82,14 +82,10 @@ public class PathFinder {
 
             ArrayList<Node> neighbors = getNeighbors(current, target);
 
-            boolean noPathFlag = true;
-
             for (Node neighbor: neighbors) {
                 if (closed.contains(neighbor)) {
                     continue;
                 }
-
-                noPathFlag = false;
 
                 if (open.contains(neighbor)) {
                     if (neighbor.g > current.g + getNewG(neighbor, current)) {
@@ -107,7 +103,8 @@ public class PathFinder {
                     neighbor.f = neighbor.g + neighbor.h;
                 }
             }
-            if (noPathFlag) {
+
+            if (open.size() == 0) {
                 return path;
             }
         }
