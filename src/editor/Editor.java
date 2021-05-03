@@ -87,6 +87,8 @@ class Editor {
             placeYellowTank(x, y);
         } else if (e.getKeyChar() == 'l') {
             placePurpleTank(x, y);
+        } else if (e.getKeyChar() == 'i') {
+            placeWhiteTank(x, y);
         }
     }
 
@@ -291,6 +293,22 @@ class Editor {
             }
         }
         elements.add(new PurpleTank(x, y, sizeX, sizeY, 0, null));
+        Collections.sort(elements);
+    }
+
+    /**
+     * Places a WhiteTank at the given position
+     * If an element exists there already, does nothing and returns
+     * @param x the x position of the WhiteTank
+     * @param y the y position of the WhiteTank
+     */
+    private void placeWhiteTank(int x, int y) {
+        for (Element element: elements) {
+            if (element.x == x && element.y == y) {
+                return;
+            }
+        }
+        elements.add(new WhiteTank(x, y, sizeX, sizeY, 0, null));
         Collections.sort(elements);
     }
 

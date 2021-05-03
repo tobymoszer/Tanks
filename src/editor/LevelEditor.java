@@ -12,7 +12,7 @@ public class LevelEditor {
     /**
      * The level number to be edited
      */
-    private static final int levelNumber = 19;
+    private static final int levelNumber = 20;
 
     /**
      * Main runnable method for the LevelEditor

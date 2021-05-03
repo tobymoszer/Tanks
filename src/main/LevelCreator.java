@@ -107,6 +107,7 @@ class LevelCreator {
 				case "StationaryGrayTank" -> level.addStationaryGrayTank(Integer.valueOf(lineScan.next()), Integer.valueOf(lineScan.next()));
 				case "StationaryGreenTank" -> level.addStationaryGreenTank(Integer.valueOf(lineScan.next()), Integer.valueOf(lineScan.next()));
 				case "PurpleTank" -> level.addPurpleTank(Integer.valueOf(lineScan.next()), Integer.valueOf(lineScan.next()));
+				case "WhiteTank" -> level.addWhiteTank(Integer.valueOf(lineScan.next()), Integer.valueOf(lineScan.next()));
 				case "Player" -> level.addPlayer(Integer.valueOf(lineScan.next()), Integer.valueOf(lineScan.next()));
 
 			}

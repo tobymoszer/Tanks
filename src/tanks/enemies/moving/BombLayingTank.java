@@ -17,6 +17,11 @@ public abstract class BombLayingTank extends MovingTank {
     protected long lastBomb;
 
     /**
+     * The number of bombs the tank can lay
+     */
+    protected int bombCount;
+
+    /**
      * Constructs a new BombLayingTank
      * @param x the x position of the BombLayingTank
      * @param y the y position of the BombLayingTank
@@ -38,7 +43,7 @@ public abstract class BombLayingTank extends MovingTank {
         super.update();
         if (System.currentTimeMillis() > lastBomb + bombRate) {
             System.out.println("hi");
-            layBomb(3);
+            layBomb(bombCount);
             lastBomb = System.currentTimeMillis() + (int) (Math.random() * bombRate/2 - bombRate/2);
         }
     }

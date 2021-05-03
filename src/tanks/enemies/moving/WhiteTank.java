@@ -5,24 +5,25 @@ import main.Level;
 import java.awt.*;
 
 /**
- * A class that represents a PurpleTank
+ * A class that represents a WhiteTank
  */
-public class PurpleTank extends BombLayingTank {
+public class WhiteTank extends BombLayingTank{
+
 
     /**
-     * Constructs a PurpleTank,
-     * Sets moveSpeed, aimSpeed, fireRate, bombRate, and lastBomb
-     * @param x the x position of the PurpleTank
-     * @param y the y position of the PurpleTank
+     * Constructs a White Tank
+     * Sets moveSpeed, aimSpeed, fireRate, bombRate and lastBomb
+     * @param x the x position of the WhiteTank
+     * @param y the y position of the WhiteTank
      * @param levelSizeX the x size of the Level
      * @param levelSizeY the y size of the Level
      * @param delay the delay between frames
-     * @param level the Level that the PurpleTank is in
+     * @param level the Level that the WhiteTank is in
      */
-    public PurpleTank(double x, double y, int levelSizeX, int levelSizeY, int delay, Level level) {
+    public WhiteTank(double x, double y, int levelSizeX, int levelSizeY, int delay, Level level) {
         super(x, y, levelSizeX, levelSizeY, delay, level);
-        color = new Color(130, 90, 124);
-        moveSpeed = .004;
+        color = new Color(236,221,180);
+        moveSpeed = .0025;
         aimSpeed = .07 / 16;
         fireRate = 7000./delay;
         bombRate = 70000./delay;
@@ -33,7 +34,7 @@ public class PurpleTank extends BombLayingTank {
     }
 
     /**
-     * Update the PurpleTank,
+     * Update the WhiteTank,
      * Aim near the player
      */
     @Override
@@ -53,10 +54,10 @@ public class PurpleTank extends BombLayingTank {
     }
 
     /**
-     * @return "PurpleTank"
+     * @return "WhiteTank"
      */
     @Override
     public String toString() {
-        return "PurpleTank";
+        return "WhiteTank";
     }
 }

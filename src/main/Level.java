@@ -207,6 +207,15 @@ public class Level {
 	}
 
 	/**
+	 * Adds a WhiteTank
+	 * @param x the x position of the WhiteTank
+	 * @param y the y positino of the WhiteTank
+	 */
+	void addWhiteTank(int x, int y) {
+		elements.add(new WhiteTank(x, y, sizeX, sizeY, delay, this));
+	}
+
+	/**
 	 * Handles and updates all Elements, Projectiles, and Bombs
 	 * Handles collisions of Elements
 	 * Removes any elements that have been destroyed
