@@ -100,11 +100,18 @@ public class PathFinder {
 
                     neighbor.g = current.g + getNewG(neighbor, current);
                     neighbor.h = Math.pow(Math.pow(neighbor.x - destination[0], 2) + Math.pow(neighbor.y - destination[1], 2), .5) * 10;
+
+                    //check for near walls and adjust heuristic
+                    if (isWallNearby(neighbor.getX(), neighbor.getY())) {
+                        neighbor.h += 50;
+                    }
+
                     neighbor.f = neighbor.g + neighbor.h;
                 }
             }
 
             if (open.size() == 0) {
+                System.out.println("No Path Found");
                 return path;
             }
         }
@@ -153,14 +160,32 @@ public class PathFinder {
             for (int j = -1; j <= 1; j++) {
                 if ((i != 0 || j != 0) && !level.wallAt(current.x + i, current.y + j) && (i == 0 || j == 0)) {
                     if (!cutsCorner(current.x, i, current.y, j) && current.x + i > 0 && current.y + j > 0) {
-                        if (!isPushedUpAgainstWall(current.x + i, current.y + j) || (Math.abs(current.x - target.x) < 2 && Math.abs(current.y - target.y) < 2)) {
-                            neighbors.add(nodes[current.x + i][current.y + j]);
-                        }
+                        neighbors.add(nodes[current.x + i][current.y + j]);
                     }
                 }
             }
         }
         return neighbors;
+    }
+
+    /**
+     * Determines if a node is near a wall in a 3x3 square
+     * Used to increase the heuristic for nodes near walls
+     * @param x the x position of the node
+     * @param y the y position of the node
+     * @return a boolean representing if there is a nearby wall
+     */
+    private boolean isWallNearby(int x, int y) {
+
+        for (int j = -1; j <= 1; j ++) {
+            for (int i = -1; i <= 1; i++) {
+                if (level.wallAt(x + i, y + j)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**

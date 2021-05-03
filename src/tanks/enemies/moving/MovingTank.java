@@ -102,17 +102,18 @@ public abstract class MovingTank extends EnemyTank {
                         generatePathAndFollow();
                     }
                 }
-                
+
                 if (Math.abs(x - path.get(0).getX()) < .5 && Math.abs(y - path.get(0).getY()) < .5) {
                     path.remove(path.get(0));
                 }
+
             } catch (IndexOutOfBoundsException e) {
                 System.err.println("Path was empty, multithreading sucks");
             }
 
             //this causes the "wiggle" in the movement
             if (path.size() != 0) {
-                double offset = Main.noise.eval(x, y, (System.currentTimeMillis() - Main.startTime)/4000.);
+                double offset = Main.noise.eval(x, y, (System.currentTimeMillis() - Main.startTime) / 4000.)/2.;
                 if (level.pointInWall(path.get(0).getX() + offset, path.get(0).getY() + offset)) {
                     moveAt(path.get(0).getX(), path.get(0).getY());
                 } else {
