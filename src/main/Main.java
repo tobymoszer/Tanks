@@ -29,7 +29,7 @@ public class Main {
     /**
      * The level that the game starts at
      */
-    private static final int startingLevel = 19;
+    private static final int startingLevel = 18;
     /**
      * The time that the game starts at
      */

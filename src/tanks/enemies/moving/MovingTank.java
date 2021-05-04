@@ -41,6 +41,13 @@ public abstract class MovingTank extends EnemyTank {
     private int avoidBulletLookaheadFrames;
 
     /**
+     * True if the conditions of the tank allow for bombs to be laid
+     * At the moment this is false if avoiding bombs/projectiles or shooting at player
+     * Non bomb laying tanks have this, but don't use it
+     */
+    protected boolean canLayBomb;
+
+    /**
      * Constructs a MovingTank
      * Sets lastFired to the current time
      * @param x the x position of the MovingTank
@@ -142,7 +149,8 @@ public abstract class MovingTank extends EnemyTank {
         }
         
         avoidBombs();
-        avoidProjectiles();
+
+        canLayBomb = !isNearOtherTanks();
         
         if (Math.random() < checkWillHitPlayerFrequency) {
             if (System.currentTimeMillis() > lastFired + fireRate && willHitPlayer(projectileBounces)) {
@@ -152,12 +160,33 @@ public abstract class MovingTank extends EnemyTank {
         }
         
     }
+
+    /**
+     * Check if this tank is near other tanks
+     * @return if this tank is near other tanks
+     */
+    private boolean isNearOtherTanks() {
+        for (Element element: level.getElements()) {
+            if (element instanceof Tank) {
+                if (element != this) {
+                    if (Formulas.distance(getCenterX(), ((Tank) element).getCenterX(), getCenterY(), ((Tank) element).getCenterY()) < 3) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
     
     private void avoidBombs() {
+
+        canLayBomb = true;
+
         ArrayList<Bomb> avoidBombs = new ArrayList<>();
         for (Bomb bomb: level.getBombs()) {
             if (Formulas.distance(getCenterX(), bomb.getX(), getCenterY(), bomb.getY()) < bomb.getExplosionRadius() + 1 && Formulas.distance(getCenterX(), bomb.getX(), getCenterY(), bomb.getY()) > .5) {
                 avoidBombs.add(bomb);
+                canLayBomb = false;
             }
         }
     
@@ -181,24 +210,40 @@ public abstract class MovingTank extends EnemyTank {
      * Calculates if the tank will be hit by a projectile within the next
      * avoidBulletLookaheadFrames frames, and avoids the projectile if so
      */
-    private void avoidProjectiles() {
+    protected void avoidProjectiles() {
+
+        canLayBomb = true;
+
         CopyOnWriteArrayList<Projectile> projectiles = level.getProjectiles();
-        /*
+
         for (Projectile projectile: projectiles) {
-            //copy the projectile into a phantom bullet
-            PhantomBullet phantomBullet = new PhantomBullet(projectile.getCenterX(),
-                    projectile.getCenterY(),
-                    projectile.getDirection(), levelSizeX, levelSizeY, delay, projectile.getBounces(), level);
-            for (int i = 0; i < avoidBulletLookaheadFrames; i++) {
-                phantomBullet.update();
-                if (contains(phantomBullet.getCenterX(), phantomBullet.getCenterY())) {
-                    //this is the hard part
-                    System.out.println("oh no");
+
+            if (Formulas.distance(getCenterX(), projectile.getCenterX(), getCenterY(), projectile.getCenterY()) < 2) {
+
+                //System.out.println("near");
+
+                boolean hitFlag = false;
+
+                //copy the projectile into a phantom bullet
+                PhantomBullet phantomBullet = new PhantomBullet(projectile.getCenterX(),
+                        projectile.getCenterY(),
+                        projectile.getDirection(), levelSizeX, levelSizeY, delay, projectile.getBounces(), level);
+                for (int i = 0; i < avoidBulletLookaheadFrames; i++) {
+                    phantomBullet.update();
+                    if (contains(phantomBullet.getCenterX(), phantomBullet.getCenterY())) {
+                        //this is the hard part
+                        //System.out.println("oh no");
+                        hitFlag = true;
+                        canLayBomb = false;
+                    }
+                }
+                if (hitFlag) {
+                    avoid(projectile.getCenterX(), projectile.getCenterY());
                 }
             }
         }
         
-         */
+
     }
 
     /**

@@ -25,7 +25,7 @@ public class PurpleTank extends BombLayingTank {
         moveSpeed = .004;
         aimSpeed = .07 / 16;
         fireRate = 7000./delay;
-        bombRate = 70000./delay;
+        bombRate = 90000./delay;
         bombCount = 2;
         lastBomb = System.currentTimeMillis() - (int) (Math.random() * bombRate/2);
         checkWillHitPlayerFrequency = .4;
@@ -39,6 +39,7 @@ public class PurpleTank extends BombLayingTank {
     @Override
     public void update() {
         super.update();
+        avoidProjectiles();
 
         aimNearPlayer(Math.PI);
     }

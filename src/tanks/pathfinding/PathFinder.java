@@ -255,7 +255,13 @@ public class PathFinder {
             }
         }
     }
-    
+
+    /**
+     * Finds if the given path goes through any bombs
+     * Ignores initial nodes within a bomb
+     * @param path the path to check
+     * @return if the path goes through any bombs
+     */
     public boolean goesThroughBombPath(ArrayList<Node> path) {
         CopyOnWriteArrayList<Bomb> bombs = level.getBombs();
         
@@ -264,13 +270,20 @@ public class PathFinder {
         for (int i = startIndex; i < path.size(); i++) {
             for (Bomb bomb: bombs) {
                 if (bomb.withinExplosionRadius(path.get(i))) {
+                    System.out.println("bomb time");
                     return true;
                 }
             }
         }
         return false;
     }
-    
+
+    /**
+     * Find the first node of a path not inside a bomb
+     * @param bombs all bombs in the level
+     * @param path the path to iterate through
+     * @return the first node of the given path not within a bomb
+     */
     private int getFirstNodeOutsideOfBombs(CopyOnWriteArrayList<Bomb> bombs, ArrayList<Node> path) {
         
         int index = 0;

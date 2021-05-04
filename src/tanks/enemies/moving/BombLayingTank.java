@@ -41,10 +41,10 @@ public abstract class BombLayingTank extends MovingTank {
     @Override
     public void update() {
         super.update();
-        if (System.currentTimeMillis() > lastBomb + bombRate) {
+        if (System.currentTimeMillis() > lastBomb + bombRate && canLayBomb) {
             System.out.println("hi");
             layBomb(bombCount);
-            lastBomb = System.currentTimeMillis() + (int) (Math.random() * bombRate/2 - bombRate/2);
+            lastBomb = System.currentTimeMillis() + (int) (Math.random() * bombRate - bombRate + 10000);
         }
     }
 }
