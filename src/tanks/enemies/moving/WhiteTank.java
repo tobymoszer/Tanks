@@ -9,6 +9,8 @@ import java.awt.*;
  */
 public class WhiteTank extends BombLayingTank{
 
+    private final boolean IS_INVISIBLE = false;
+
 
     /**
      * Constructs a White Tank
@@ -41,6 +43,8 @@ public class WhiteTank extends BombLayingTank{
     public void update() {
         super.update();
 
+        avoidProjectiles();
+
         aimNearPlayer(Math.PI);
     }
 
@@ -59,5 +63,27 @@ public class WhiteTank extends BombLayingTank{
     @Override
     public String toString() {
         return "WhiteTank";
+    }
+
+    /**
+     * Override paint method to not paint anything
+     * @param g the Graphics to paint to
+     */
+    @Override
+    public void paint(Graphics g) {
+        if (!IS_INVISIBLE) {
+            super.paint(g);
+        }
+    }
+
+    /**
+     * Override paintBarrel method to not paint anything
+     * @param g the Graphics to paint to
+     */
+    @Override
+    public void paintBarrel(Graphics g) {
+        if (!IS_INVISIBLE) {
+            super.paintBarrel(g);
+        }
     }
 }

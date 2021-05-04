@@ -37,6 +37,8 @@ public class RedTank extends MovingTank {
     public void update() {
         super.update();
 
+        avoidProjectiles();
+
         aimNearPlayer(Math.PI / 2);
     }
 

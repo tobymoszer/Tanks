@@ -48,6 +48,11 @@ public abstract class MovingTank extends EnemyTank {
     protected boolean canLayBomb;
 
     /**
+     * True if the tank is actively avoiding any projectiles
+     */
+    private boolean isAvoidingProjectiles;
+
+    /**
      * Constructs a MovingTank
      * Sets lastFired to the current time
      * @param x the x position of the MovingTank
@@ -61,7 +66,7 @@ public abstract class MovingTank extends EnemyTank {
         super(x, y, levelSizeX, levelSizeY, delay, level);
         lastFired = System.currentTimeMillis();
         path = new ArrayList<>();
-        avoidBulletLookaheadFrames = 100;
+        avoidBulletLookaheadFrames = 200;
     }
 
     /**
@@ -119,7 +124,7 @@ public abstract class MovingTank extends EnemyTank {
             }
 
             //this causes the "wiggle" in the movement
-            if (path.size() != 0) {
+            if (path.size() != 0 && !isAvoidingProjectiles) {
                 double offset = Main.noise.eval(x, y, (System.currentTimeMillis() - Main.startTime) / 4000.)/2.;
                 if (level.pointInWall(path.get(0).getX() + offset, path.get(0).getY() + offset)) {
                     moveAt(path.get(0).getX(), path.get(0).getY());
@@ -150,7 +155,7 @@ public abstract class MovingTank extends EnemyTank {
         
         avoidBombs();
 
-        canLayBomb = !isNearOtherTanks();
+        canLayBomb = !isNearOtherTanks(3);
         
         if (Math.random() < checkWillHitPlayerFrequency) {
             if (System.currentTimeMillis() > lastFired + fireRate && willHitPlayer(projectileBounces)) {
@@ -165,11 +170,11 @@ public abstract class MovingTank extends EnemyTank {
      * Check if this tank is near other tanks
      * @return if this tank is near other tanks
      */
-    private boolean isNearOtherTanks() {
+    private boolean isNearOtherTanks(int distance) {
         for (Element element: level.getElements()) {
             if (element instanceof Tank) {
                 if (element != this) {
-                    if (Formulas.distance(getCenterX(), ((Tank) element).getCenterX(), getCenterY(), ((Tank) element).getCenterY()) < 3) {
+                    if (Formulas.distance(getCenterX(), ((Tank) element).getCenterX(), getCenterY(), ((Tank) element).getCenterY()) < distance) {
                         return true;
                     }
                 }
@@ -216,9 +221,11 @@ public abstract class MovingTank extends EnemyTank {
 
         CopyOnWriteArrayList<Projectile> projectiles = level.getProjectiles();
 
+        boolean avoidingFlag = false;
+
         for (Projectile projectile: projectiles) {
 
-            if (Formulas.distance(getCenterX(), projectile.getCenterX(), getCenterY(), projectile.getCenterY()) < 2) {
+            if (Formulas.distance(getCenterX(), projectile.getCenterX(), getCenterY(), projectile.getCenterY()) < 5) {
 
                 //System.out.println("near");
 
@@ -226,23 +233,56 @@ public abstract class MovingTank extends EnemyTank {
 
                 //copy the projectile into a phantom bullet
                 PhantomBullet phantomBullet = new PhantomBullet(projectile.getCenterX(),
+
                         projectile.getCenterY(),
                         projectile.getDirection(), levelSizeX, levelSizeY, delay, projectile.getBounces(), level);
+
                 for (int i = 0; i < avoidBulletLookaheadFrames; i++) {
+
                     phantomBullet.update();
+
                     if (contains(phantomBullet.getCenterX(), phantomBullet.getCenterY())) {
+
                         //this is the hard part
                         //System.out.println("oh no");
                         hitFlag = true;
                         canLayBomb = false;
+                        break;
                     }
                 }
                 if (hitFlag) {
-                    avoid(projectile.getCenterX(), projectile.getCenterY());
+
+                    isAvoidingProjectiles = true;
+                    avoidingFlag = true;
+
+                    double moveRightWeight = Math.abs(direction - (projectile.getDirection() + Math.PI/2));
+                    double moveLeftWeight = Math.abs(direction - (projectile.getDirection() - Math.PI/2));
+
+                    if (moveRightWeight < moveLeftWeight) {
+                        moveAtDirection(Formulas.fixAngle(projectile.getDirection() + Math.PI/2));
+                    } else {
+                        moveAtDirection(Formulas.fixAngle(projectile.getDirection() - Math.PI/2));
+                    }
+
+                    //moveAtDirection(Formulas.fixAngle(Math.min(Math.abs(direction - (projectile.getDirection() + Math.PI/2)), Math.abs(direction - (projectile.getDirection() - Math.PI/2)))));
+
+                    //moveAtDirection(Formulas.fixAngle(projectile.getDirection() + Math.PI/2));
+
+                    //System.out.println("avoiding");
+
+                    //avoid(projectile.getCenterX(), projectile.getCenterY());
+
+                } else {
+                    if (Formulas.distance(getCenterX(), projectile.getCenterX(), getCenterY(), projectile.getCenterY()) < 2) {
+                        avoid(projectile.getCenterX(), projectile.getCenterY());
+                    }
                 }
             }
         }
-        
+
+        if (!avoidingFlag) {
+            isAvoidingProjectiles = false;
+        }
 
     }
 

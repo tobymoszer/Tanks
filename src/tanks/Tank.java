@@ -336,6 +336,16 @@ public abstract class Tank extends Element {
 
 		wantedDirection = Formulas.fixAngle(Math.atan2(y - this.y, x - this.x));
 
+		moveAtDirection(wantedDirection);
+
+	}
+
+	protected void moveAtDirection(double wantedDirection) {
+
+		System.out.println(direction + " " + wantedDirection);
+
+		wantedDirection = Formulas.fixAngle(wantedDirection);
+
 		if (Math.abs(direction - wantedDirection) < spinSpeed || Formulas.fixAngle(Math.abs(direction - wantedDirection) + Math.PI) < spinSpeed) {
 			direction = wantedDirection;
 			move();
@@ -378,10 +388,11 @@ public abstract class Tank extends Element {
 			}
 
 		} else {
-			System.err.println("this is very bad");
+			System.err.println("this is very bad, moveAt failed");
 		}
 
 		direction = Formulas.fixAngle(direction);
+
 	}
 
 	/**

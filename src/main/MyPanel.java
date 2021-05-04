@@ -148,6 +148,10 @@ public class MyPanel extends JPanel implements KeyListener, MouseListener {
 		if (e.getKeyCode() == 68) { //d
 			d = true;
 		}
+		if (e.getKeyCode() == 16) { //shift
+			System.out.println("Pause");
+			//Break here for a jump in breakpoint
+		}
 	}
 
 	/**
